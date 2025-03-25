@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { saveApiKey, getApiKey } from '$lib/config';
-	import Card from '$lib/components/Card.svelte';
+	import Card from '$lib/components/shared/Card.svelte';
 
 	let apiKey = $state('');
 	let saved = $state(false);
