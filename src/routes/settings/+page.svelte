@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { saveApiKey, getApiKey } from '$lib/service/config';
+	import { saveApiKey, getApiKey, getModel, saveModel } from '$lib/service/config';
 	import Card from '$lib/components/shared/Card.svelte';
+	import Dropdown from '$lib/components/shared/Dropdown.svelte';
+	import { Model } from '$lib/service/ai-wrapper/constants';
+	import Button from '$lib/components/shared/Button.svelte';
 
 	let apiKey = $state('');
+	let model = $state('');
 	let saved = $state(false);
 
 	onMount(() => {
@@ -11,10 +15,16 @@
 		if (storedApiKey) {
 			apiKey = storedApiKey;
 		}
+
+		const storedModel = getModel();
+		if (storedModel) {
+			model = storedModel;
+		}
 	});
 
-	function handleSaveApiKey() {
+	function handleSave() {
 		saveApiKey(apiKey);
+		saveModel(model);
 		saved = true;
 		setTimeout(() => {
 			saved = false;
@@ -22,32 +32,42 @@
 	}
 </script>
 
-<Card>
-	<h1 class="mb-6 text-2xl font-bold text-gray-800">⚙️ Configuration</h1>
-
-	<div class="space-y-4">
-		<div>
-			<label for="apiKey" class="mb-2 block text-sm font-medium text-gray-700"> API Key </label>
-			<input
-				id="apiKey"
-				type="password"
-				bind:value={apiKey}
-				class="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-purple-500 focus:ring-purple-500 focus:outline-none"
-				placeholder="Enter your API key"
-			/>
+<div class="m-4 flex h-full items-center justify-center">
+	<Card className="mx-auto my-auto">
+		<div class="flex items-center justify-between">
+			<h1 class="mb-6 text-2xl font-bold text-gray-800">⚙️ Configuration</h1>
+			<a onclick={() => (window.location.href = '/test')}>Go to test</a>
 		</div>
-
-		<button
-			onclick={handleSaveApiKey}
-			class="w-full rounded-md bg-purple-600 px-4 py-2 text-white transition-colors hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:outline-none"
-		>
-			Save Configuration
-		</button>
-
-		{#if saved}
-			<div class="mt-4 text-center text-sm text-green-600">
-				✅ Configuration saved successfully!
+		<div class="space-y-4">
+			<div>
+				<label for="apiKey" class="mb-2 block text-sm font-medium text-gray-700"> API Key </label>
+				<input
+					id="apiKey"
+					type="password"
+					bind:value={apiKey}
+					class="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-purple-500 focus:ring-purple-500 focus:outline-none"
+					placeholder="Enter your API key"
+				/>
 			</div>
-		{/if}
-	</div>
-</Card>
+
+			<div>
+				<label for="model" class="mb-2 block text-sm font-medium text-gray-700"> Model </label>
+				<Dropdown
+					options={[
+						{ value: Model.CLAUDE_3_7_SONNET, label: Model.CLAUDE_3_7_SONNET },
+						{ value: Model.CLAUDE_3_5_SONNET, label: Model.CLAUDE_3_5_SONNET }
+					]}
+					bind:value={model}
+				/>
+			</div>
+
+			<Button className="w-full" onclick={handleSave}>Save Configuration</Button>
+
+			{#if saved}
+				<div class="mt-4 text-center text-sm text-green-600">
+					✅ Configuration saved successfully!
+				</div>
+			{/if}
+		</div>
+	</Card>
+</div>
