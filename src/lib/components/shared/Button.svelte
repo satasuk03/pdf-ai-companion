@@ -3,7 +3,7 @@
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 
 	interface Props extends HTMLButtonAttributes {
-		variant?: 'primary' | 'secondary' | 'outline' | 'danger';
+		variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'link';
 		size?: 'sm' | 'md' | 'lg';
 		loading?: boolean;
 		fullWidth?: boolean;
@@ -25,6 +25,7 @@
 	}: Props = $props();
 
 	const variantClasses = {
+		link: 'text-blue-600 hover:text-blue-700',
 		primary: 'bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-500',
 		secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400',
 		outline:

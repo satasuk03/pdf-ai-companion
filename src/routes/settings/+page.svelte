@@ -34,9 +34,9 @@
 
 <div class="m-4 flex h-full items-center justify-center">
 	<Card className="mx-auto my-auto">
-		<div class="flex items-center justify-between">
-			<h1 class="mb-6 text-2xl font-bold text-gray-800">⚙️ Configuration</h1>
-			<a onclick={() => (window.location.href = '/test')}>Go to test</a>
+		<div class="mb-6 flex content-center items-center justify-between">
+			<h1 class="text-2xl font-bold text-gray-800">⚙️ Configuration</h1>
+			<a href="/test" class="text-blue-600 hover:text-blue-700">Go to test</a>
 		</div>
 		<div class="space-y-4">
 			<div>
